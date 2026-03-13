@@ -14,172 +14,147 @@
       padding: 40px 24px 60px;
     }
 
-    /* Header */
     .header {
       text-align: center;
-      margin-bottom: 56px;
+      margin-bottom: 52px;
     }
     .header h1 {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 700;
       background: linear-gradient(135deg, #58a6ff, #bc8cff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
-    .header p { color: #8b949e; font-size: 14px; }
+    .header p { color: #8b949e; font-size: 13px; }
 
-    /* Layout */
     .tree {
-      max-width: 1100px;
+      max-width: 1160px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 0;
       align-items: center;
     }
 
-    /* Root node */
+    /* Root */
     .root-node {
       background: linear-gradient(135deg, #1f6feb, #58a6ff);
-      border-radius: 16px;
-      padding: 16px 36px;
-      font-size: 18px;
+      border-radius: 14px;
+      padding: 14px 40px;
+      font-size: 17px;
       font-weight: 700;
       color: #fff;
-      box-shadow: 0 0 32px rgba(88,166,255,0.35);
+      box-shadow: 0 0 28px rgba(88,166,255,0.4);
       position: relative;
       z-index: 1;
     }
-    .root-node .emoji { margin-right: 8px; }
 
-    /* Trunk line */
     .trunk {
       width: 2px;
-      height: 40px;
-      background: linear-gradient(to bottom, #58a6ff, #30363d);
+      height: 36px;
+      background: linear-gradient(to bottom, #58a6ff55, #30363d);
+    }
+
+    .h-line {
+      height: 2px;
+      width: 88%;
+      background: linear-gradient(to right, transparent, #30363d 15%, #30363d 85%, transparent);
     }
 
     /* Branch row */
     .branch-row {
       display: flex;
-      gap: 20px;
+      gap: 16px;
       align-items: flex-start;
       width: 100%;
       justify-content: center;
     }
 
-    /* Category column */
     .category {
       display: flex;
       flex-direction: column;
       align-items: center;
       flex: 1;
       min-width: 0;
-      max-width: 220px;
+      max-width: 210px;
     }
 
-    /* Category connector */
     .cat-line {
       width: 2px;
-      height: 28px;
+      height: 24px;
       background: linear-gradient(to bottom, #30363d, var(--cat-color));
     }
 
-    /* Category header */
     .cat-header {
       width: 100%;
-      border-radius: 12px;
-      padding: 10px 14px;
+      border-radius: 10px;
+      padding: 9px 12px;
       text-align: center;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
       border: 1.5px solid var(--cat-color);
-      background: color-mix(in srgb, var(--cat-color) 12%, #161b22);
+      background: color-mix(in srgb, var(--cat-color) 10%, #161b22);
       color: var(--cat-color);
-      position: relative;
     }
-    .cat-header .cat-icon { font-size: 16px; display: block; margin-bottom: 4px; }
+    .cat-icon { font-size: 15px; display: block; margin-bottom: 3px; }
+    .cat-name { font-size: 11px; font-weight: 700; letter-spacing: 0.4px; }
 
-    /* Skill nodes */
     .skill-list {
       width: 100%;
-      margin-top: 10px;
+      margin-top: 8px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
 
     .skill-node {
       background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 10px;
-      padding: 8px 12px;
-      font-size: 12px;
-      position: relative;
-      transition: border-color 0.2s, transform 0.2s;
+      border: 1px solid #21262d;
+      border-left: 2px solid var(--cat-color);
+      border-radius: 8px;
+      padding: 7px 10px;
+      transition: border-color 0.15s, transform 0.15s;
       cursor: default;
     }
     .skill-node:hover {
       border-color: var(--cat-color);
-      transform: translateX(3px);
+      transform: translateX(2px);
+      background: color-mix(in srgb, var(--cat-color) 5%, #161b22);
     }
-    .skill-node .skill-name {
+    .skill-name {
+      font-family: 'SFMono-Regular', Consolas, monospace;
+      font-size: 11px;
       font-weight: 600;
       color: #e6edf3;
       margin-bottom: 2px;
-      font-family: 'SFMono-Regular', Consolas, monospace;
-      font-size: 11px;
     }
-    .skill-node .skill-desc {
+    .skill-desc {
       color: #8b949e;
-      font-size: 11px;
+      font-size: 10.5px;
       line-height: 1.4;
     }
-    .skill-node .skill-tag {
-      display: inline-block;
-      font-size: 10px;
-      padding: 1px 6px;
-      border-radius: 10px;
-      margin-top: 4px;
-      background: color-mix(in srgb, var(--cat-color) 15%, #0d1117);
+    .tags { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 3px; }
+    .tag {
+      font-size: 9.5px;
+      padding: 1px 5px;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--cat-color) 12%, #0d1117);
       color: var(--cat-color);
-      border: 1px solid color-mix(in srgb, var(--cat-color) 30%, transparent);
+      border: 1px solid color-mix(in srgb, var(--cat-color) 25%, transparent);
     }
+    .tag.ok   { --cat-color: #3fb950; }
+    .tag.warn { --cat-color: #d29922; }
+    .tag.new  { background: linear-gradient(135deg,#bc8cff22,#58a6ff22); color: #bc8cff; border-color: #bc8cff44; }
 
-    /* Connector dot between cat header and skills */
-    .v-connector {
-      width: 1px;
-      height: 10px;
-      background: var(--cat-color);
-      opacity: 0.4;
-      margin: 0 auto;
-    }
-
-    /* Horizontal line across branches */
-    .h-line {
-      height: 2px;
-      width: 80%;
-      background: linear-gradient(to right, transparent, #30363d 20%, #30363d 80%, transparent);
-      margin-bottom: 0;
-    }
-
-    /* Category colors */
-    .cat-auto    { --cat-color: #58a6ff; }
-    .cat-feishu  { --cat-color: #1abc9c; }
-    .cat-shared  { --cat-color: #bc8cff; }
-    .cat-external{ --cat-color: #f0883e; }
-    .cat-admin   { --cat-color: #ff7b72; }
-
-    /* Status badge */
-    .status-ok { color: #3fb950; }
-    .status-pending { color: #d29922; }
+    /* Color themes */
+    .cat-auto     { --cat-color: #58a6ff; }
+    .cat-feishu   { --cat-color: #1abc9c; }
+    .cat-shared   { --cat-color: #bc8cff; }
+    .cat-external { --cat-color: #f0883e; }
+    .cat-admin    { --cat-color: #ff7b72; }
 
     footer {
       text-align: center;
-      margin-top: 48px;
+      margin-top: 44px;
       color: #484f58;
       font-size: 11px;
     }
@@ -190,17 +165,15 @@
 
 <div class="header">
   <h1>🤖 小D · 技能树</h1>
-  <p>OpenClaw Agent Skill Registry &nbsp;·&nbsp; 2026-03-13</p>
+  <p>OpenClaw Agent Skill Registry &nbsp;·&nbsp; 2026-03-13 &nbsp;·&nbsp; 共 17 个技能</p>
 </div>
 
 <div class="tree">
 
-  <!-- Root -->
-  <div class="root-node"><span class="emoji">🤖</span>小D (main agent)</div>
+  <div class="root-node">🤖 小D (main agent)</div>
   <div class="trunk"></div>
   <div class="h-line"></div>
 
-  <!-- Branch row -->
   <div class="branch-row">
 
     <!-- 自动加载层 -->
@@ -208,17 +181,16 @@
       <div class="cat-line"></div>
       <div class="cat-header">
         <span class="cat-icon">🔄</span>
-        自动加载层
+        <span class="cat-name">自动加载层</span>
       </div>
-      <div class="v-connector"></div>
       <div class="skill-list">
         <div class="skill-node">
           <div class="skill-name">oc-core</div>
-          <div class="skill-desc">基础工具库 · 数据契约 · workspace 初始化</div>
+          <div class="skill-desc">基础工具库 · 数据契约</div>
         </div>
         <div class="skill-node">
           <div class="skill-name">identity-guard</div>
-          <div class="skill-desc">用户身份识别 · admin 判断 · 权限拦截</div>
+          <div class="skill-desc">身份识别 · 权限拦截</div>
         </div>
         <div class="skill-node">
           <div class="skill-name">memory-core</div>
@@ -226,12 +198,12 @@
         </div>
         <div class="skill-node">
           <div class="skill-name">user-workspace</div>
-          <div class="skill-desc">身份 + 记忆 + workspace 单入口初始化</div>
+          <div class="skill-desc">身份+记忆+workspace 初始化</div>
         </div>
         <div class="skill-node">
           <div class="skill-name">model-switcher</div>
-          <div class="skill-desc">OpenAI / Claude 模型切换（按需）</div>
-          <span class="skill-tag">按需触发</span>
+          <div class="skill-desc">模型切换（按需）</div>
+          <div class="tags"><span class="tag">按需触发</span></div>
         </div>
       </div>
     </div>
@@ -241,49 +213,48 @@
       <div class="cat-line"></div>
       <div class="cat-header">
         <span class="cat-icon">📱</span>
-        飞书集成
+        <span class="cat-name">飞书集成</span>
       </div>
-      <div class="v-connector"></div>
       <div class="skill-list">
         <div class="skill-node">
           <div class="skill-name">feishu-doc</div>
           <div class="skill-desc">文档读写</div>
-          <span class="skill-tag status-ok">✓ docx:document</span>
+          <div class="tags"><span class="tag ok">✓ docx</span></div>
         </div>
         <div class="skill-node">
           <div class="skill-name">feishu-drive</div>
           <div class="skill-desc">云盘文件管理</div>
-          <span class="skill-tag status-pending">⏳ drive:drive</span>
+          <div class="tags"><span class="tag warn">⏳ drive</span></div>
         </div>
         <div class="skill-node">
           <div class="skill-name">feishu-perm</div>
-          <div class="skill-desc">文件权限与所有者转让</div>
-          <span class="skill-tag status-pending">⏳ drive:drive</span>
+          <div class="skill-desc">文件权限转让</div>
+          <div class="tags"><span class="tag warn">⏳ drive</span></div>
         </div>
         <div class="skill-node">
           <div class="skill-name">feishu-wiki</div>
           <div class="skill-desc">知识库读写</div>
-          <span class="skill-tag status-ok">✓ 已开通</span>
+          <div class="tags"><span class="tag ok">✓ 已开通</span></div>
         </div>
         <div class="skill-node">
           <div class="skill-name">feishu-media</div>
-          <div class="skill-desc">发送文件 / 图片到飞书</div>
-          <span class="skill-tag status-ok">✓ im:resource</span>
+          <div class="skill-desc">发送文件/图片</div>
+          <div class="tags"><span class="tag ok">✓ im:resource</span></div>
         </div>
         <div class="skill-node">
           <div class="skill-name">feishu-create-doc</div>
-          <div class="skill-desc">创建飞书文档（指定文件夹）</div>
-          <span class="skill-tag status-ok">✓ docx:document</span>
+          <div class="skill-desc">创建飞书文档</div>
+          <div class="tags"><span class="tag ok">✓ docx</span></div>
         </div>
         <div class="skill-node">
           <div class="skill-name">feishu-create-bitable</div>
-          <div class="skill-desc">创建多维表格并配置字段</div>
-          <span class="skill-tag status-ok">✓ bitable:app</span>
+          <div class="skill-desc">创建多维表格</div>
+          <div class="tags"><span class="tag ok">✓ bitable</span></div>
         </div>
         <div class="skill-node">
           <div class="skill-name">feishu-create-sheet</div>
-          <div class="skill-desc">创建电子表格并写入数据</div>
-          <span class="skill-tag status-ok">✓ sheets:spreadsheet</span>
+          <div class="skill-desc">创建电子表格</div>
+          <div class="tags"><span class="tag ok">✓ sheets</span></div>
         </div>
       </div>
     </div>
@@ -293,19 +264,26 @@
       <div class="cat-line"></div>
       <div class="cat-header">
         <span class="cat-icon">🌍</span>
-        共享技能层
+        <span class="cat-name">共享技能层</span>
       </div>
-      <div class="v-connector"></div>
       <div class="skill-list">
         <div class="skill-node">
           <div class="skill-name">feishu-media</div>
-          <div class="skill-desc">"发我一张图" · 发文件/图片</div>
-          <span class="skill-tag">私聊 + 群聊</span>
+          <div class="skill-desc">"发我一张图" 等</div>
+          <div class="tags"><span class="tag">私聊+群聊</span></div>
         </div>
         <div class="skill-node">
           <div class="skill-name">text-to-flowchart</div>
-          <div class="skill-desc">"文生流程图" · 描述转流程图 HTML</div>
-          <span class="skill-tag">私聊 + 群聊</span>
+          <div class="skill-desc">"文生流程图"</div>
+          <div class="tags"><span class="tag">私聊+群聊</span></div>
+        </div>
+        <div class="skill-node" style="border-left-color: #bc8cff; background: color-mix(in srgb, #bc8cff 6%, #161b22);">
+          <div class="skill-name">text-to-prototype</div>
+          <div class="skill-desc">"文生原型图" · 多页面 Hi-fi</div>
+          <div class="tags">
+            <span class="tag">仅私聊</span>
+            <span class="tag new">NEW</span>
+          </div>
         </div>
       </div>
     </div>
@@ -315,19 +293,18 @@
       <div class="cat-line"></div>
       <div class="cat-header">
         <span class="cat-icon">🌐</span>
-        外部服务
+        <span class="cat-name">外部服务</span>
       </div>
-      <div class="v-connector"></div>
       <div class="skill-list">
         <div class="skill-node">
           <div class="skill-name">weather</div>
-          <div class="skill-desc">天气 · 预报查询（无 Key）</div>
-          <span class="skill-tag">user+</span>
+          <div class="skill-desc">天气/预报查询</div>
+          <div class="tags"><span class="tag">user+</span></div>
         </div>
         <div class="skill-node">
           <div class="skill-name">tavily</div>
           <div class="skill-desc">AI 优化网页搜索</div>
-          <span class="skill-tag">user+ · API Key</span>
+          <div class="tags"><span class="tag">user+ · API Key</span></div>
         </div>
       </div>
     </div>
@@ -337,39 +314,38 @@
       <div class="cat-line"></div>
       <div class="cat-header">
         <span class="cat-icon">⚙️</span>
-        运维管理
+        <span class="cat-name">运维管理</span>
       </div>
-      <div class="v-connector"></div>
       <div class="skill-list">
         <div class="skill-node">
           <div class="skill-name">agent-manager</div>
-          <div class="skill-desc">多 agent 编排 · session 管理</div>
-          <span class="skill-tag">admin only</span>
+          <div class="skill-desc">多 agent 编排</div>
+          <div class="tags"><span class="tag">admin</span></div>
         </div>
         <div class="skill-node">
           <div class="skill-name">daily-digest</div>
-          <div class="skill-desc">汇总日志 · 发送日报</div>
-          <span class="skill-tag">admin only</span>
+          <div class="skill-desc">汇总日志 · 发日报</div>
+          <div class="tags"><span class="tag">admin</span></div>
         </div>
         <div class="skill-node">
           <div class="skill-name">healthcheck</div>
-          <div class="skill-desc">服务器安全加固与风险检查</div>
-          <span class="skill-tag">admin only</span>
+          <div class="skill-desc">服务器安全加固</div>
+          <div class="tags"><span class="tag">admin</span></div>
         </div>
         <div class="skill-node">
           <div class="skill-name">tmux</div>
-          <div class="skill-desc">远程控制 tmux 终端</div>
-          <span class="skill-tag">admin only</span>
+          <div class="skill-desc">远程控制终端</div>
+          <div class="tags"><span class="tag">admin</span></div>
         </div>
         <div class="skill-node">
           <div class="skill-name">clawhub</div>
-          <div class="skill-desc">技能市场：搜索/安装/发布</div>
-          <span class="skill-tag">admin only</span>
+          <div class="skill-desc">技能市场</div>
+          <div class="tags"><span class="tag">admin</span></div>
         </div>
         <div class="skill-node">
           <div class="skill-name">skill-creator</div>
-          <div class="skill-desc">创建或更新 AgentSkill</div>
-          <span class="skill-tag">admin only</span>
+          <div class="skill-desc">创建/更新技能</div>
+          <div class="tags"><span class="tag">admin</span></div>
         </div>
       </div>
     </div>
@@ -377,7 +353,9 @@
   </div>
 </div>
 
-<footer>Generated by <span>小D · DataClaw</span> &nbsp;·&nbsp; 技能树总览</footer>
+<footer>
+  Generated by <span>小D · DataClaw</span> &nbsp;·&nbsp; 技能树总览
+</footer>
 
 </body>
 </html>
