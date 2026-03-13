@@ -1,361 +1,139 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>小D 技能树</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif;
-      background: #0d1117;
-      color: #e6edf3;
-      min-height: 100vh;
-      padding: 40px 24px 60px;
-    }
+<meta charset="UTF-8">
+<title>小D · Skill Tree</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:#0f1117;color:#e2e8f0;min-height:100vh;padding:32px 24px;}
+h1{text-align:center;font-size:22px;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:.5px;}
+.subtitle{text-align:center;font-size:13px;color:#64748b;margin-bottom:36px;}
+.layers{display:flex;flex-direction:column;gap:24px;max-width:960px;margin:0 auto;}
 
-    .header {
-      text-align: center;
-      margin-bottom: 52px;
-    }
-    .header h1 {
-      font-size: 26px;
-      font-weight: 700;
-      background: linear-gradient(135deg, #58a6ff, #bc8cff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 6px;
-    }
-    .header p { color: #8b949e; font-size: 13px; }
+.layer{border-radius:12px;overflow:hidden;border:1px solid #1e293b;}
+.layer-header{padding:12px 20px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:8px;}
+.layer-body{padding:16px 20px;background:#0d1117;display:flex;flex-wrap:wrap;gap:10px;}
 
-    .tree {
-      max-width: 1160px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+/* 层颜色 */
+.layer-auto   .layer-header{background:#1e1b4b;color:#a5b4fc;}
+.layer-feishu .layer-header{background:#1a2744;color:#60a5fa;}
+.layer-shared .layer-header{background:#14291f;color:#4ade80;}
+.layer-admin  .layer-header{background:#2a1a0e;color:#fb923c;}
+.layer-system .layer-header{background:#1c1c1c;color:#94a3b8;}
 
-    /* Root */
-    .root-node {
-      background: linear-gradient(135deg, #1f6feb, #58a6ff);
-      border-radius: 14px;
-      padding: 14px 40px;
-      font-size: 17px;
-      font-weight: 700;
-      color: #fff;
-      box-shadow: 0 0 28px rgba(88,166,255,0.4);
-      position: relative;
-      z-index: 1;
-    }
+/* 技能卡 */
+.skill{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:8px;font-size:13px;font-weight:500;border:1px solid transparent;transition:transform .15s,box-shadow .15s;cursor:default;}
+.skill:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.4);}
 
-    .trunk {
-      width: 2px;
-      height: 36px;
-      background: linear-gradient(to bottom, #58a6ff55, #30363d);
-    }
+.skill-auto   {background:#1e1b4b;border-color:#3730a3;color:#c7d2fe;}
+.skill-feishu {background:#172554;border-color:#1e40af;color:#93c5fd;}
+.skill-shared {background:#052e16;border-color:#166534;color:#86efac;}
+.skill-admin  {background:#431407;border-color:#9a3412;color:#fdba74;}
+.skill-system {background:#1a1a2e;border-color:#374151;color:#94a3b8;}
+.skill-new    {background:#1e1a00;border-color:#854d0e;color:#fde68a;}
 
-    .h-line {
-      height: 2px;
-      width: 88%;
-      background: linear-gradient(to right, transparent, #30363d 15%, #30363d 85%, transparent);
-    }
+.skill-icon{font-size:15px;line-height:1;}
+.badge-new{font-size:10px;background:#854d0e;color:#fef9c3;padding:1px 5px;border-radius:4px;margin-left:2px;}
 
-    /* Branch row */
-    .branch-row {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-      width: 100%;
-      justify-content: center;
-    }
+.arrow{text-align:center;color:#334155;font-size:18px;line-height:1;}
+.dep{font-size:11px;color:#475569;margin-left:auto;}
 
-    .category {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 1;
-      min-width: 0;
-      max-width: 210px;
-    }
-
-    .cat-line {
-      width: 2px;
-      height: 24px;
-      background: linear-gradient(to bottom, #30363d, var(--cat-color));
-    }
-
-    .cat-header {
-      width: 100%;
-      border-radius: 10px;
-      padding: 9px 12px;
-      text-align: center;
-      border: 1.5px solid var(--cat-color);
-      background: color-mix(in srgb, var(--cat-color) 10%, #161b22);
-      color: var(--cat-color);
-    }
-    .cat-icon { font-size: 15px; display: block; margin-bottom: 3px; }
-    .cat-name { font-size: 11px; font-weight: 700; letter-spacing: 0.4px; }
-
-    .skill-list {
-      width: 100%;
-      margin-top: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .skill-node {
-      background: #161b22;
-      border: 1px solid #21262d;
-      border-left: 2px solid var(--cat-color);
-      border-radius: 8px;
-      padding: 7px 10px;
-      transition: border-color 0.15s, transform 0.15s;
-      cursor: default;
-    }
-    .skill-node:hover {
-      border-color: var(--cat-color);
-      transform: translateX(2px);
-      background: color-mix(in srgb, var(--cat-color) 5%, #161b22);
-    }
-    .skill-name {
-      font-family: 'SFMono-Regular', Consolas, monospace;
-      font-size: 11px;
-      font-weight: 600;
-      color: #e6edf3;
-      margin-bottom: 2px;
-    }
-    .skill-desc {
-      color: #8b949e;
-      font-size: 10.5px;
-      line-height: 1.4;
-    }
-    .tags { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 3px; }
-    .tag {
-      font-size: 9.5px;
-      padding: 1px 5px;
-      border-radius: 8px;
-      background: color-mix(in srgb, var(--cat-color) 12%, #0d1117);
-      color: var(--cat-color);
-      border: 1px solid color-mix(in srgb, var(--cat-color) 25%, transparent);
-    }
-    .tag.ok   { --cat-color: #3fb950; }
-    .tag.warn { --cat-color: #d29922; }
-    .tag.new  { background: linear-gradient(135deg,#bc8cff22,#58a6ff22); color: #bc8cff; border-color: #bc8cff44; }
-
-    /* Color themes */
-    .cat-auto     { --cat-color: #58a6ff; }
-    .cat-feishu   { --cat-color: #1abc9c; }
-    .cat-shared   { --cat-color: #bc8cff; }
-    .cat-external { --cat-color: #f0883e; }
-    .cat-admin    { --cat-color: #ff7b72; }
-
-    footer {
-      text-align: center;
-      margin-top: 44px;
-      color: #484f58;
-      font-size: 11px;
-    }
-    footer span { color: #58a6ff; }
-  </style>
+footer{text-align:center;margin-top:40px;font-size:12px;color:#334155;}
+</style>
 </head>
 <body>
 
-<div class="header">
-  <h1>🤖 小D · 技能树</h1>
-  <p>OpenClaw Agent Skill Registry &nbsp;·&nbsp; 2026-03-13 &nbsp;·&nbsp; 共 17 个技能</p>
-</div>
+<h1>🤖 小D · Skill Tree</h1>
+<p class="subtitle">OpenClaw Agent · 技能注册表 · 2026-03-13</p>
 
-<div class="tree">
+<div class="layers">
 
-  <div class="root-node">🤖 小D (main agent)</div>
-  <div class="trunk"></div>
-  <div class="h-line"></div>
-
-  <div class="branch-row">
-
-    <!-- 自动加载层 -->
-    <div class="category cat-auto">
-      <div class="cat-line"></div>
-      <div class="cat-header">
-        <span class="cat-icon">🔄</span>
-        <span class="cat-name">自动加载层</span>
-      </div>
-      <div class="skill-list">
-        <div class="skill-node">
-          <div class="skill-name">oc-core</div>
-          <div class="skill-desc">基础工具库 · 数据契约</div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">identity-guard</div>
-          <div class="skill-desc">身份识别 · 权限拦截</div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">memory-core</div>
-          <div class="skill-desc">会话记忆加载与写入</div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">user-workspace</div>
-          <div class="skill-desc">身份+记忆+workspace 初始化</div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">model-switcher</div>
-          <div class="skill-desc">模型切换（按需）</div>
-          <div class="tags"><span class="tag">按需触发</span></div>
-        </div>
-      </div>
+  <!-- 自动加载层 -->
+  <div class="layer layer-auto">
+    <div class="layer-header">
+      🔄 自动加载层
+      <span class="dep">每条消息开始前自动执行（channel ≠ webchat）</span>
     </div>
-
-    <!-- 飞书集成 -->
-    <div class="category cat-feishu">
-      <div class="cat-line"></div>
-      <div class="cat-header">
-        <span class="cat-icon">📱</span>
-        <span class="cat-name">飞书集成</span>
-      </div>
-      <div class="skill-list">
-        <div class="skill-node">
-          <div class="skill-name">feishu-doc</div>
-          <div class="skill-desc">文档读写</div>
-          <div class="tags"><span class="tag ok">✓ docx</span></div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">feishu-drive</div>
-          <div class="skill-desc">云盘文件管理</div>
-          <div class="tags"><span class="tag warn">⏳ drive</span></div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">feishu-perm</div>
-          <div class="skill-desc">文件权限转让</div>
-          <div class="tags"><span class="tag warn">⏳ drive</span></div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">feishu-wiki</div>
-          <div class="skill-desc">知识库读写</div>
-          <div class="tags"><span class="tag ok">✓ 已开通</span></div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">feishu-media</div>
-          <div class="skill-desc">发送文件/图片</div>
-          <div class="tags"><span class="tag ok">✓ im:resource</span></div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">feishu-create-doc</div>
-          <div class="skill-desc">创建飞书文档</div>
-          <div class="tags"><span class="tag ok">✓ docx</span></div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">feishu-create-bitable</div>
-          <div class="skill-desc">创建多维表格</div>
-          <div class="tags"><span class="tag ok">✓ bitable</span></div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">feishu-create-sheet</div>
-          <div class="skill-desc">创建电子表格</div>
-          <div class="tags"><span class="tag ok">✓ sheets</span></div>
-        </div>
-      </div>
+    <div class="layer-body">
+      <div class="skill skill-auto"><span class="skill-icon">⚙️</span>oc-core</div>
+      <div class="skill skill-auto"><span class="skill-icon">🛡️</span>identity-guard</div>
+      <div class="skill skill-auto"><span class="skill-icon">🧠</span>memory-core</div>
+      <div class="skill skill-auto"><span class="skill-icon">🏠</span>user-workspace</div>
+      <div class="skill skill-auto"><span class="skill-icon">🚨</span>violation-guard <span class="badge-new">NEW</span></div>
     </div>
+  </div>
 
-    <!-- 共享技能层 -->
-    <div class="category cat-shared">
-      <div class="cat-line"></div>
-      <div class="cat-header">
-        <span class="cat-icon">🌍</span>
-        <span class="cat-name">共享技能层</span>
-      </div>
-      <div class="skill-list">
-        <div class="skill-node">
-          <div class="skill-name">feishu-media</div>
-          <div class="skill-desc">"发我一张图" 等</div>
-          <div class="tags"><span class="tag">私聊+群聊</span></div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">text-to-flowchart</div>
-          <div class="skill-desc">"文生流程图"</div>
-          <div class="tags"><span class="tag">私聊+群聊</span></div>
-        </div>
-        <div class="skill-node" style="border-left-color: #bc8cff; background: color-mix(in srgb, #bc8cff 6%, #161b22);">
-          <div class="skill-name">text-to-prototype</div>
-          <div class="skill-desc">"文生原型图" · 多页面 Hi-fi</div>
-          <div class="tags">
-            <span class="tag">仅私聊</span>
-            <span class="tag new">NEW</span>
-          </div>
-        </div>
-      </div>
+  <div class="arrow">↓</div>
+
+  <!-- 飞书集成层 -->
+  <div class="layer layer-feishu">
+    <div class="layer-header">
+      📱 飞书集成层
+      <span class="dep">channel=feishu 时按需加载</span>
     </div>
-
-    <!-- 外部服务 -->
-    <div class="category cat-external">
-      <div class="cat-line"></div>
-      <div class="cat-header">
-        <span class="cat-icon">🌐</span>
-        <span class="cat-name">外部服务</span>
-      </div>
-      <div class="skill-list">
-        <div class="skill-node">
-          <div class="skill-name">weather</div>
-          <div class="skill-desc">天气/预报查询</div>
-          <div class="tags"><span class="tag">user+</span></div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">tavily</div>
-          <div class="skill-desc">AI 优化网页搜索</div>
-          <div class="tags"><span class="tag">user+ · API Key</span></div>
-        </div>
-      </div>
+    <div class="layer-body">
+      <div class="skill skill-feishu"><span class="skill-icon">📄</span>feishu-doc</div>
+      <div class="skill skill-feishu"><span class="skill-icon">📁</span>feishu-drive</div>
+      <div class="skill skill-feishu"><span class="skill-icon">🔐</span>feishu-perm</div>
+      <div class="skill skill-feishu"><span class="skill-icon">📚</span>feishu-wiki</div>
     </div>
+  </div>
 
-    <!-- 运维管理 -->
-    <div class="category cat-admin">
-      <div class="cat-line"></div>
-      <div class="cat-header">
-        <span class="cat-icon">⚙️</span>
-        <span class="cat-name">运维管理</span>
-      </div>
-      <div class="skill-list">
-        <div class="skill-node">
-          <div class="skill-name">agent-manager</div>
-          <div class="skill-desc">多 agent 编排</div>
-          <div class="tags"><span class="tag">admin</span></div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">daily-digest</div>
-          <div class="skill-desc">汇总日志 · 发日报</div>
-          <div class="tags"><span class="tag">admin</span></div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">healthcheck</div>
-          <div class="skill-desc">服务器安全加固</div>
-          <div class="tags"><span class="tag">admin</span></div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">tmux</div>
-          <div class="skill-desc">远程控制终端</div>
-          <div class="tags"><span class="tag">admin</span></div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">clawhub</div>
-          <div class="skill-desc">技能市场</div>
-          <div class="tags"><span class="tag">admin</span></div>
-        </div>
-        <div class="skill-node">
-          <div class="skill-name">skill-creator</div>
-          <div class="skill-desc">创建/更新技能</div>
-          <div class="tags"><span class="tag">admin</span></div>
-        </div>
-      </div>
+  <div class="arrow">↓</div>
+
+  <!-- 共享技能层 -->
+  <div class="layer layer-shared">
+    <div class="layer-header">
+      🌍 共享技能层
+      <span class="dep">所有 user+ 可用，特定指令触发</span>
     </div>
+    <div class="layer-body">
+      <div class="skill skill-shared"><span class="skill-icon">🌐</span>text-to-flowchart</div>
+      <div class="skill skill-shared skill-new"><span class="skill-icon">🖼️</span>text-to-prototype <span class="badge-new">NEW</span></div>
+      <div class="skill skill-shared"><span class="skill-icon">🔍</span>tavily-search</div>
+      <div class="skill skill-shared"><span class="skill-icon">🌤️</span>weather</div>
+      <div class="skill skill-shared"><span class="skill-icon">🤖</span>model-switcher</div>
+      <div class="skill skill-shared"><span class="skill-icon">📝</span>summarize</div>
+    </div>
+  </div>
 
+  <div class="arrow">↓</div>
+
+  <!-- 运维管理层（admin） -->
+  <div class="layer layer-admin">
+    <div class="layer-header">
+      ⚙️ 运维管理层
+      <span class="dep">仅 admin 可用</span>
+    </div>
+    <div class="layer-body">
+      <div class="skill skill-admin"><span class="skill-icon">🤝</span>agent-manager</div>
+      <div class="skill skill-admin"><span class="skill-icon">📊</span>daily-digest</div>
+      <div class="skill skill-admin"><span class="skill-icon">🏥</span>healthcheck</div>
+      <div class="skill skill-admin"><span class="skill-icon">🖥️</span>tmux</div>
+      <div class="skill skill-admin"><span class="skill-icon">🐙</span>github</div>
+      <div class="skill skill-admin"><span class="skill-icon">🐙</span>gh-issues</div>
+      <div class="skill skill-admin"><span class="skill-icon">🛠️</span>skill-creator</div>
+      <div class="skill skill-admin"><span class="skill-icon">📦</span>clawhub</div>
+    </div>
+  </div>
+
+  <!-- 图例 -->
+  <div style="display:flex;gap:16px;flex-wrap:wrap;padding:16px 0;border-top:1px solid #1e293b;margin-top:8px;">
+    <span style="font-size:12px;color:#475569;">图例：</span>
+    <span class="skill skill-auto" style="font-size:11px;padding:4px 10px;">自动加载</span>
+    <span class="skill skill-feishu" style="font-size:11px;padding:4px 10px;">飞书集成</span>
+    <span class="skill skill-shared" style="font-size:11px;padding:4px 10px;">共享技能</span>
+    <span class="skill skill-admin" style="font-size:11px;padding:4px 10px;">Admin 专属</span>
+    <span style="font-size:11px;background:#1e1a00;border:1px solid #854d0e;color:#fde68a;padding:4px 10px;border-radius:8px;">🆕 新增</span>
   </div>
 </div>
 
-<footer>
-  Generated by <span>小D · DataClaw</span> &nbsp;·&nbsp; 技能树总览
-</footer>
+<footer>Generated by 小D · DataClaw · 共 {{ total }} 个 Skill</footer>
 
+<script>
+// 统计技能数量
+const count = document.querySelectorAll('.skill').length - 5; // 减去图例5个
+document.querySelector('footer').textContent = `Generated by 小D · DataClaw · 共 ${count} 个 Skill`;
+</script>
 </body>
 </html>
